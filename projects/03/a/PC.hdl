@@ -18,5 +18,12 @@ CHIP PC {
     PARTS:
     // Put your code here:
 
-    
+   Inc16(in = feedback, out = pc); /*incrementation*/
+
+   Mux16(a = feedback, b = pc, sel = inc, out = w0); /*checks to see if it needs to be incremented*/
+   Mux16(a = w0, b = in, sel = load, out = w1); /*checks to see if load is on*/
+   Mux16(a = w1, b = false, sel = reset, out = o); /*checks to see if it is being reset*/
+
+   Register(in = o, load = true, out = out, out = feedback);/*actually implements the feedback loop*/
+
 }
