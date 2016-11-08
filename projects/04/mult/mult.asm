@@ -7,6 +7,7 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
+//<0
 @R2 //set output to 0
 M=0
 (START) //begin loop
