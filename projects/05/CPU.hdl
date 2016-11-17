@@ -73,12 +73,9 @@ CHIP CPU {
     And(a=instruction[15], b=instruction[3], out=writeM);
 
    // PC. Jump settings
-   Not(in=zr, out=notZR);
-   Not(in=ng, out=notNG);
-   And(a=notZR, b=notNG, out=isPositive);
-
-   And(a=instruction[2], b=ng, out=jumpNegative);
-   And(a=instruction[1], b=zr, out=jumpZero);
+   Not16(in[0] = zr, in[1] = ng, out[0] = notZR, out[1]=notNG);
+   And16(a[0]=notZR, b[0]=notNG, out[0]=isPositive, a[1]=instruction[2], b[1]=ng, out[1]=jumpNegative, a[3]=instruction[1], b[3]=zr, out[3]=jumpZero);
+   
    And(a=instruction[0], b=isPositive, out=jumpPositive);
 
    Or8Way(in[0]=jumpNegative, in[1]=jumpZero, in[2]=jumpPositive, out=jumpIfCInstruction);
