@@ -6,8 +6,13 @@
 // Computes R0 = 2 + 3  (R0 refers to RAM[0])
 
 @2
-D=A
+L=A
+(tet)
 @3
 D=D+A
 @0
 M=D
+(tet)
+M;JLK
+@-5
+@300000

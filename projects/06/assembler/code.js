@@ -55,12 +55,28 @@ var jump = {
 
 module.exports = {
 
-    getCcode: function(fields) {
+    getCcode: function(fields, ROMcounter) {
+        if (!comp.hasOwnProperty(fields.comp)) {
+            console.error("Comp: Syntax error on line " + ROMcounter);
+            return "Comp: Syntax error on line " + ROMcounter;
+        } else if (!dest.hasOwnProperty(fields.dest)) {
+            console.error("Dest: Syntax error on line " + ROMcounter);
+            return "Dest: Syntax error on line " + ROMcounter;
+        } else if (!jump.hasOwnProperty(fields.jump)) {
+            console.error("Jump: Syntax error on line " + ROMcounter);
+            return "Jump: Syntax error on line " + ROMcounter;
+        }
         return '111' + comp[fields.comp] + dest[fields.dest] + jump[fields.jump];
     },
 
-    getAcode: function(decimalString) {
+    getAcode: function(decimalString, ROMcounter) {
         var decimalNum = parseInt(decimalString, 10);
+
+        if (decimalNum < 0 || decimalNum > 24576) {
+            console.error("Memory access Error. Call to register " + decimalNum + " on line " + ROMcounter);
+            return "Memory access Error. Call to register " + decimalNum + " on line " + ROMcounter;
+        }
+
         var binaryString = decimalNum.toString(2);
 
         if (binaryString.length > 16) {
