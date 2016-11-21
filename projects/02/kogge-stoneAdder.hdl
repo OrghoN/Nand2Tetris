@@ -1,0 +1,315 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/Adder16.hdl
+
+/**
+ * Adds two 16-bit values.
+ * The most significant carry bit is ignored.
+ */
+
+CHIP kogge-stoneAdder {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+    // Put you code here:
+    //  16-bit Kogge-Stone Parallel Prefix Adder
+    //s[0]
+    Xor(a=a[0], b=b[0], out=p0);
+    Xor(a=false, b=p0, out=out[0]);
+
+    And(a=a[0], b=b[0], out=g0);
+    And(a=p0, b=false, out=p0a);
+    Or(a=p0a, b=g0, out=g0in);
+
+    //s[1]
+
+    Xor(a=a[1], b=b[1], out=p1);
+    Xor(a=g0in, b=p1, out=out[1]);
+
+    And(a=a[1], b=b[1], out=g1);
+    And(a=p1, b=g0, out=p1a);
+    And(a=p0, b=p1, out=p1p0);
+    Or(a=p1a, b=g1, out=g1g0);
+
+    And(a=p1p0, b=false, out=p1p0p0);
+    Or(a=p1p0p0, b=g1g0, out=g1in);
+
+    //s[2]
+
+    Xor(a=a[2], b=b[2], out=p2);
+    Xor(a=g1in, b=p2, out=out[2]);
+
+    And(a=a[2], b=b[2], out=g2);
+    And(a=p2, b=g1, out=p2a);
+    And(a=p1, b=p2, out=p2p1);
+    Or(a=p2a, b=g2, out=g2g1);
+
+    And(a=p2p1, b=g0in, out=p2p1p0);
+    Or(a=p2p1p0, b=g2g1, out=g2in);
+
+    //s[3]
+
+    Xor(a=a[3], b=b[3], out=p3);
+    Xor(a=g2in, b=p3, out=out[3]);
+
+    And(a=a[3], b=b[3], out=g3);
+    And(a=p3, b=g2, out=p3a);
+    And(a=p2, b=p3, out=p3p2);
+    Or(a=p3a, b=g3, out=g3g2);
+
+    And(a=p3p2, b=g1g0, out=p3p2p1);
+    And(a=p1p0, b=p3p2, out=p3p0);
+    Or(a=p3p2p1, b=g3g2, out=g3g0);
+
+    And(a=p3p0, b=false, out=p3p0p0);
+    Or(a=p3p0p0, b=g3g0, out=g3in);
+
+    //s[4]
+
+    Xor(a=a[4], b=b[4], out=p4);
+    Xor(a=g3in, b=p4, out=out[4]);
+
+    And(a=a[4], b=b[4], out=g4);
+    And(a=p4, b=g3, out=p4a);
+    And(a=p3, b=p4, out=p4p3);
+    Or(a=p4a, b=g4, out=g4g3);
+
+    And(a=p4p3, b=g2g1, out=p4p3p2);
+    And(a=p2p1, b=p4p3, out=p4p1);
+    Or(a=p4p3p2, b=g4g3, out=g4g1);
+
+    And(a=p4p1, b=g0in, out=p4p1p1);
+    Or(a=p4p1p1, b=g4g1, out=g4in);
+
+    //s[5]
+
+    Xor(a=a[5], b=b[5], out=p5);
+    Xor(a=g4in, b=p5, out=out[5]);
+
+    And(a=a[5], b=b[5], out=g5);
+    And(a=p5, b=g4, out=p5a);
+    And(a=p4, b=p5, out=p5p4);
+    Or(a=p5a, b=g5, out=g5g4);
+
+    And(a=p5p4, b=g3g2, out=p5p4p3);
+    And(a=p3p2, b=p5p4, out=p5p2);
+    Or(a=p5p4p3, b=g5g4, out=g5g2);
+
+    And(a=p5p2, b=g1in, out=p5p2p2);
+    Or(a=p5p2p2, b=g5g2, out=g5in);
+
+    //s[6]
+
+    Xor(a=a[6], b=b[6], out=p6);
+    Xor(a=g5in, b=p6, out=out[6]);
+
+    And(a=a[6], b=b[6], out=g6);
+    And(a=p6, b=g5, out=p6a);
+    And(a=p5, b=p6, out=p6p5);
+    Or(a=p6a, b=g6, out=g6g5);
+
+    And(a=p6p5, b=g4g3, out=p6p5p4);
+    And(a=p4p3, b=p6p5, out=p6p3);
+    Or(a=p6p5p4, b=g6g5, out=g6g3);
+
+    And(a=p6p3, b=g2in, out=p6p3p3);
+    Or(a=p6p3p3, b=g6g3, out=g6in);
+
+    //s[7]
+
+    Xor(a=a[7], b=b[7], out=p7);
+    Xor(a=g6in, b=p7, out=out[7]);
+
+    And(a=a[7], b=b[7], out=g7);
+    And(a=p7, b=g6, out=p7a);
+    And(a=p6, b=p7, out=p7p6);
+    Or(a=p7a, b=g7, out=g7g6);
+
+    And(a=p7p6, b=g5g4, out=p7p6p5);
+    And(a=p5p4, b=p7p6, out=p7p4);
+    Or(a=p7p6p5, b=g7g6, out=g7g4);
+
+    And(a=p7p4, b=g3g0, out=p7p4p4);
+    And(a=p3p0, b=p7p4, out=p7p0);
+    Or(a=p7p4p4, b=g7g4, out=g7g0);
+
+    And(a=p7p0, b=false, out=p7p0p0);
+    Or(a=p7p0p0, b=g7g0, out=g7in);
+
+    //s[8]
+
+    Xor(a=a[8], b=b[8], out=p8);
+    Xor(a=g7in, b=p8, out=out[8]);
+
+    And(a=a[8], b=b[8], out=g8);
+    And(a=p8, b=g7, out=p8a);
+    And(a=p7, b=p8, out=p8p7);
+    Or(a=p8a, b=g8, out=g8g7);
+
+    And(a=p8p7, b=g6g5, out=p8p7p6);
+    And(a=p6p5, b=p8p7, out=p8p5);
+    Or(a=p8p7p6, b=g8g7, out=g8g5);
+
+    And(a=p8p5, b=g4g1, out=p8p5p5);
+    And(a=p4p1, b=p8p5, out=p8p1);
+    Or(a=p8p5p5, b=g8g5, out=g8g1);
+
+    And(a=p8p1, b=g0in, out=p8p1p1);
+    Or(a=p8p1p1, b=g8g1, out=g8in);
+
+    //s[9]
+
+    Xor(a=a[9], b=b[9], out=p9);
+    Xor(a=g8in, b=p9, out=out[9]);
+
+    And(a=a[9], b=b[9], out=g9);
+    And(a=p9, b=g8, out=p9a);
+    And(a=p8, b=p9, out=p9p8);
+    Or(a=p9a, b=g9, out=g9g8);
+
+    And(a=p9p8, b=g7g6, out=p9p8p7);
+    And(a=p7p6, b=p9p8, out=p9p6);
+    Or(a=p9p8p7, b=g9g8, out=g9g6);
+
+    And(a=p9p6, b=g5g2, out=p9p6p6);
+    And(a=p5p2, b=p9p6, out=p9p2);
+    Or(a=p9p6p6, b=g9g6, out=g9g2);
+
+    And(a=p9p2, b=g1in, out=p9p2p2);
+    Or(a=p9p2p2, b=g9g2, out=g9in);
+
+    //s[10]
+
+    Xor(a=a[10], b=b[10], out=p10);
+    Xor(a=g9in, b=p10, out=out[10]);
+
+    And(a=a[10], b=b[10], out=g10);
+    And(a=p10, b=g9, out=p10a);
+    And(a=p9, b=p10, out=p10p9);
+    Or(a=p10a, b=g10, out=g10g9);
+
+    And(a=p10p9, b=g8g7, out=p10p9p8);
+    And(a=p8p7, b=p10p9, out=p10p7);
+    Or(a=p10p9p8, b=g10g9, out=g10g7);
+
+    And(a=p10p7, b=g6g3, out=p10p7p7);
+    And(a=p6p3, b=p10p7, out=p10p3);
+    Or(a=p10p7p7, b=g10g7, out=g10g3);
+
+    And(a=p10p3, b=g2in, out=p10p3p3);
+    Or(a=p10p3p3, b=g10g3, out=g10in);
+
+    //s[11]
+
+    Xor(a=a[11], b=b[11], out=p11);
+    Xor(a=g10in, b=p11, out=out[11]);
+
+    And(a=a[11], b=b[11], out=g11);
+    And(a=p11, b=g10, out=p11a);
+    And(a=p10, b=p11, out=p11p10);
+    Or(a=p11a, b=g11, out=g11g10);
+
+    And(a=p11p10, b=g9g8, out=p11p10p9);
+    And(a=p9p8, b=p11p10, out=p11p8);
+    Or(a=p11p10p9, b=g11g10, out=g11g8);
+
+    And(a=p11p8, b=g6g3, out=p11p8p8);
+    And(a=p7p4, b=p11p8, out=p11p4);
+    Or(a=p11p8p8, b=g11g8, out=g11g4);
+
+    And(a=p11p4, b=g3in, out=p11p4p4);
+    Or(a=p11p4p4, b=g11g4, out=g11in);
+
+    //s[12]
+
+    Xor(a=a[12], b=b[12], out=p12);
+    Xor(a=g11in, b=p12, out=out[12]);
+
+    And(a=a[12], b=b[12], out=g12);
+    And(a=p12, b=g11, out=p12a);
+    And(a=p11, b=p12, out=p12p11);
+    Or(a=p12a, b=g12, out=g12g11);
+
+    And(a=p12p11, b=g10g9, out=p12p11p10);
+    And(a=p10p9, b=p12p11, out=p12p9);
+    Or(a=p12p11p10, b=g12g11, out=g12g9);
+
+    And(a=p12p9, b=g8g5, out=p12p9p9);
+    And(a=p8p5, b=p12p9, out=p12p5);
+    Or(a=p12p9p9, b=g12g9, out=g12g5);
+
+    And(a=p12p5, b=g4in, out=p12p5p5);
+    Or(a=p12p5p5, b=g12g5, out=g12in);
+
+    //s[13]
+
+    Xor(a=a[13], b=b[13], out=p13);
+    Xor(a=g12in, b=p13, out=out[13]);
+
+    And(a=a[13], b=b[13], out=g13);
+    And(a=p13, b=g12, out=p13a);
+    And(a=p12, b=p13, out=p13p12);
+    Or(a=p13a, b=g13, out=g13g12);
+
+    And(a=p13p12, b=g11g10, out=p13p12p11);
+    And(a=p11p10, b=p13p12, out=p13p10);
+    Or(a=p13p12p11, b=g13g12, out=g13g10);
+
+    And(a=p13p10, b=g9g6, out=p13p10p10);
+    And(a=p9p6, b=p13p10, out=p13p6);
+    Or(a=p13p10p10, b=g13g10, out=g13g6);
+
+    And(a=p13p6, b=g5in, out=p13p6p6);
+    Or(a=p13p6p6, b=g13g6, out=g13in);
+
+    //s[14]
+
+    Xor(a=a[14], b=b[14], out=p14);
+    Xor(a=g13in, b=p14, out=out[14]);
+
+    And(a=a[14], b=b[14], out=g14);
+    And(a=p14, b=g13, out=p14a);
+    And(a=p13, b=p14, out=p14p13);
+    Or(a=p14a, b=g14, out=g14g13);
+
+    And(a=p14p13, b=g12g11, out=p14p13p12);
+    And(a=p12p11, b=p14p13, out=p14p11);
+    Or(a=p14p13p12, b=g14g13, out=g14g11);
+
+    And(a=p14p11, b=g10g7, out=p14p11p11);
+    And(a=p10p7, b=p14p11, out=p14p7);
+    Or(a=p14p11p11, b=g14g11, out=g14g7);
+
+    And(a=p14p7, b=g6in, out=p14p7p7);
+    Or(a=p14p7p7, b=g14g7, out=g14in);
+
+    //s[15]
+
+    Xor(a=a[15], b=b[15], out=p15);
+    Xor(a=g14in, b=p15, out=out[15]);
+
+    And(a=a[15], b=b[15], out=g15);
+    And(a=p15, b=g14, out=p15a);
+    And(a=p14, b=p15, out=p15p14);
+    Or(a=p15a, b=g15, out=g15g14);
+
+    And(a=p15p14, b=g13g12, out=p15p14p13);
+    And(a=p13p12, b=p15p14, out=p15p12);
+    Or(a=p15p14p13, b=g15g14, out=g15g12);
+
+    And(a=p15p12, b=g11g8, out=p15p12p12);
+    And(a=p11p8, b=p15p12, out=p15p8);
+    Or(a=p15p12p12, b=g15g12, out=g15g8);
+
+    And(a=p15p8, b=g7in, out=p15p8p8);
+    And(a=p7p0, b=p15p8, out=p15p0);
+    Or(a=p15p8p8, b=g15g8, out=g15g0);
+
+    And(a=p15p0, b=false, out=p15p0p0);
+    Or(a=p15p0p0, b=g15g0, out=carry);
+
+
+
+}
