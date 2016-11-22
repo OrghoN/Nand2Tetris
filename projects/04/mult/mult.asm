@@ -19,7 +19,7 @@ D;JLT //End Loop if R1<0
 @R0
 D=M    // D=R0
 @R2
-M=D+M //R2=R2+R1
+M=D+M //R2=R2+R0
 @START
 0;JMP //Go back to beginning of loop
 (END)

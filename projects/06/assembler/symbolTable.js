@@ -16,6 +16,10 @@ module.exports = {
         if (this.contains(symbol)) {
             return this[symbol];
         }
+        else {
+          console.error("error: Symbol Doesn't Exist");
+          return "error: Symbol Doesn't Exist";
+        }
     };
 
     this['SP'] = 0;
