@@ -16,6 +16,8 @@ module.exports = {
             return 'A';
         } else if (str.charAt(0) === '(') {
             return 'L';
+        } else if (str.charAt(0) === '#') {
+            return 'M';
         } else {
             return 'C';
         }

@@ -47,4 +47,5 @@ M=0		       //removes all filled pixels in 16-bit register
 @i
 M=M-1		   //De-increments memory, which if the key has been pressed, has been raised to some number
 @WHITE
-0;JMP		   
+0;JMP
+   

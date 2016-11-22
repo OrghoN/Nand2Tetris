@@ -72,7 +72,7 @@ module.exports = {
     getAcode: function(decimalString, ROMcounter) {
         var decimalNum = parseInt(decimalString, 10);
 
-        if (decimalNum < 0 || decimalNum > 24576) {
+        if (decimalNum < 0 || decimalNum > 32768) {
             console.error("Memory access Error. Call to register " + decimalNum + " on line " + ROMcounter);
             return "Memory access Error. Call to register " + decimalNum + " on line " + ROMcounter;
         }
